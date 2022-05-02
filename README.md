@@ -1,4 +1,4 @@
-# Dino Game
+# Jumpy Black Balls
 Bas yukarı tuşa zıpla vur kaktüse git tahtalıköye
 <br/>
 Tüm haklar Hakan Vurdur'a aittir lutfen calmayın. ::(((
