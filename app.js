@@ -57,7 +57,12 @@ class Dino {
       this.y = canvas.height - this.height;
     }
 
-    if (this.x === this.cactus.x && this.y === this.cactus.y) {
+    if (
+      this.x < this.cactus.x + this.cactus.width &&
+      this.x + this.width > this.cactus.x &&
+      this.y < this.cactus.y + this.cactus.height &&
+      this.height + this.y > this.cactus.y
+    ) {
       alert("You Died");
       document.location.reload();
       clearInterval(interval);
@@ -85,7 +90,7 @@ class Cactus {
       this.x = canvas.width;
       this.score++;
     }
-    this.x -= 10;
+    this.x -= (2 * Math.log(2 * this.score)) / Math.log(3) + 5;
     ctx.font = "48px sans-serif";
     ctx.fillStyle = "black";
     ctx.fillText(`Score: ${this.score - 1}`, 10, 50);
