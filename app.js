@@ -29,7 +29,7 @@ class Dino {
   draw() {
     ctx.beginPath();
     ctx.rect(this.x, this.y, this.width, this.height);
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "black";
     ctx.fill();
     ctx.closePath();
   }
