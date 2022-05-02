@@ -1,0 +1,104 @@
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+let keyPressed = false;
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowUp") {
+    keyPressed = true;
+  }
+});
+
+document.addEventListener("keyup", (e) => {
+  if (e.key === "ArrowUp") {
+    keyPressed = false;
+  }
+});
+
+class Dino {
+  constructor(cactus) {
+    this.height = 40;
+    this.width = 30;
+    this.x = 10;
+    this.y = canvas.height - this.height;
+    this.oldY = this.y;
+    this.velocity = 10;
+    this.jump = false;
+    this.cactus = cactus;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.rect(this.x, this.y, this.width, this.height);
+    ctx.fillStyle = "green";
+    ctx.fill();
+    ctx.closePath();
+  }
+  update() {
+    if (keyPressed) {
+      if (!this.jump) {
+        this.y -= this.velocity;
+        if (this.y === this.oldY - 150) {
+          this.y += this.velocity;
+          this.jump = true;
+        }
+      } else if (this.jump) {
+        if (this.y != this.oldY) {
+          this.y += 5;
+        } else {
+          this.jump = false;
+        }
+      }
+    } else {
+      if (this.y != this.oldY) {
+        this.y += 10;
+      }
+    }
+    if (this.y > canvas.height - this.height) {
+      this.y = canvas.height - this.height;
+    }
+
+    if (this.x === this.cactus.x && this.y === this.cactus.y) {
+      alert("You Died");
+      document.location.reload();
+      clearInterval(interval);
+    }
+  }
+}
+
+class Cactus {
+  constructor() {
+    this.width = 30;
+    this.height = 40;
+    this.x = canvas.width - this.width;
+    this.y = canvas.height - this.height;
+    this.score = 1;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.rect(this.x, this.y, this.width, this.height);
+    ctx.fillStyle = "orange";
+    ctx.fill();
+    ctx.closePath();
+  }
+  update() {
+    if (this.x < 0) {
+      this.x = canvas.width;
+      this.score++;
+    }
+    this.x -= 10;
+    ctx.font = "48px sans-serif";
+    ctx.fillStyle = "black";
+    ctx.fillText(`Score: ${this.score - 1}`, 10, 50);
+  }
+}
+
+const cactus = new Cactus();
+const dino = new Dino(cactus);
+
+const interval = setInterval(() => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  dino.draw();
+  cactus.draw();
+  dino.update();
+  cactus.update();
+}, 10);
