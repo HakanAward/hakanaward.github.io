@@ -1,11 +1,14 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const death = new Audio("ölüm.mp3");
+const audio = new Audio("ömer.mp3");
 
 let keyPressed = false;
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowUp") {
     keyPressed = true;
+    audio.play();
   }
 });
 
@@ -25,15 +28,17 @@ class Dino {
     this.velocity = 10;
     this.jump = false;
     this.cactus = cactus;
+    this.color = "black";
   }
   draw() {
     ctx.beginPath();
     ctx.rect(this.x, this.y, this.width, this.height);
-    ctx.fillStyle = "black";
+    ctx.fillStyle = this.color;
     ctx.fill();
     ctx.closePath();
   }
   update() {
+    this.rgb();
     if (keyPressed) {
       if (!this.jump) {
         this.y -= this.velocity;
@@ -63,10 +68,16 @@ class Dino {
       this.y < this.cactus.y + this.cactus.height &&
       this.height + this.y > this.cactus.y
     ) {
+      death.play();
       alert("You Died");
       document.location.reload();
       clearInterval(interval);
     }
+  }
+  rgb() {
+    this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${
+      Math.random() * 255
+    })`;
   }
 }
 
